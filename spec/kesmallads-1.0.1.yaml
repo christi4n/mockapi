@@ -1,0 +1,262 @@
+---
+openapi: 3.0.0
+info:
+  title: kesmallads API
+  description: API de consultation des petites annonces
+  contact:
+    email: christian.bellet@vd.ch
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+servers:
+- url: https://virtserver.swaggerhub.com/chrisnt5/kesmallads/1.0.1
+  description: SwaggerHub API Auto Mocking
+paths:
+  /ads:
+    get:
+      summary: get all ads
+      description: |
+        Get list of all ads in the system
+      operationId: searchAds
+      responses:
+        "200":
+          description: found results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ad'
+        "400":
+          description: bad input parameter
+    post:
+      summary: adds a small ad
+      description: Adds a small ad to the system
+      operationId: addSmallad
+      requestBody:
+        description: Small ad to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ad'
+      responses:
+        "201":
+          description: item created
+        "400":
+          description: invalid input, object invalid
+        "409":
+          description: an existing item already exists
+  /ads/{adId}:
+    get:
+      summary: Get ad by Id
+      description: Get ad by Id
+      parameters:
+      - name: adId
+        in: path
+        description: ID of ad.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdBody'
+        "404":
+          description: Not found book
+components:
+  schemas:
+    Ad:
+      required:
+      - cat
+      - cat2
+      - cat3
+      - comment
+      - content
+      - crdate
+      - cruser_id
+      - deleted
+      - displayemail
+      - email
+      - endtime
+      - fe_group
+      - fe_user_uid
+      - hidden
+      - id
+      - image
+      - iscommercial
+      - l10n_state
+      - l18n_diffsource
+      - l18n_parent
+      - phone
+      - pid
+      - reviewed
+      - sorting
+      - starttime
+      - sys_language_uid
+      - t3ver_id
+      - t3ver_label
+      - t3ver_oid
+      - title
+      - tstamp
+      - uid
+      - user
+      type: object
+      properties:
+        uid:
+          maximum: 20000
+          minimum: 4000
+          type: integer
+          format: int32
+          example: 4720
+        pid:
+          type: integer
+          example: 10724
+        tstamp:
+          maximum: 1604188800
+          minimum: 1603584000
+          type: integer
+          example: 1603584000
+        crdate:
+          maximum: 1604188800
+          minimum: 1603584000
+          type: integer
+          example: 1603584000
+        cruser_id:
+          type: integer
+          example: 0
+          default: 0
+        t3ver_oid:
+          type: integer
+          example: 0
+          default: 0
+        t3ver_id:
+          type: integer
+          example: 0
+          default: 0
+        t3ver_label:
+          type: string
+          default: "null"
+        sys_language_uid:
+          type: number
+          example: 0
+          default: 0
+        l18n_parent:
+          type: number
+          example: 0
+          default: 0
+        l18n_diffsource:
+          type: string
+          default: "null"
+        sorting:
+          type: number
+          example: 0
+          default: 0
+        deleted:
+          type: number
+          example: 0
+          default: 0
+        hidden:
+          type: number
+          example: 0
+          default: 0
+        starttime:
+          type: number
+          example: 0
+          default: 0
+        endtime:
+          maximum: 1622419200
+          minimum: 1622419200
+          type: integer
+          example: 1603584000
+        fe_group:
+          type: number
+          example: 0
+          default: 0
+        cat:
+          type: string
+          example: Offre
+          enum:
+          - Offre
+          - Recherche
+        cat2:
+          type: string
+          example: Logement
+          enum:
+          - Divers
+          - Logement
+          - Objet
+          - Objets
+          - Vacances
+          - Véhicules
+        cat3:
+          type: string
+          enum:
+          - ""
+        user:
+          type: string
+          enum:
+          - ""
+        content:
+          type: string
+          example: <p>Appartement de 3 pièces, situé au 2ème étage (combles) d'un petit immeuble de quatre appartements</p>
+        image:
+          type: integer
+          enum:
+          - 1
+        phone:
+          type: integer
+          example: 102030405
+        email:
+          type: string
+          example: user@mail.vd.ch
+        displayemail:
+          type: boolean
+        title:
+          type: string
+          example: test annonce
+        reviewed:
+          type: boolean
+        fe_user_uid:
+          type: string
+          enum:
+          - ""
+        comment:
+          type: string
+          enum:
+          - ""
+        iscommercial:
+          type: boolean
+        l10n_state:
+          type: string
+          enum:
+          - "null"
+        id:
+          maximum: 20000
+          minimum: 4000
+          type: integer
+          example: 4786
+    AdBody:
+      required:
+      - content
+      - title
+      - uid
+      type: object
+      properties:
+        uid:
+          maximum: 20000
+          minimum: 4000
+          type: integer
+          format: int32
+          example: 4721
+        title:
+          type: string
+          example: Une annonce test
+        content:
+          type: string
+          example: Test annonce contenu
